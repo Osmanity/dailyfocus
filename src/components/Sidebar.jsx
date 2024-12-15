@@ -1,3 +1,5 @@
+import { Link } from "react-router";
+
 function Sidebar() {
   return (
     <nav className="Sidebar">
@@ -11,16 +13,20 @@ function Sidebar() {
       <div className="Sidebar-center">
         <ul className="nav-links">
           <li>
-            <a href="/overview">Översikt</a>
+            <Link to="/overview">Översikt</Link>
+            {/* <a href="/overview">Översikt</a> */}
           </li>
           <li>
-            <a href="/todos">Todos</a>
+            <Link to="/todos">Todos</Link>
+            {/* <a href="/todos">Todos</a> */}
           </li>
           <li>
-            <a href="/habits">Habits</a>
+            <Link to="/habits">Habits</Link>
+            {/* <a href="/habits">Habits</a> */}
           </li>
           <li>
-            <a href="/events">Events</a>
+            <Link to="/events">Events</Link>
+            {/* <a href="/events">Events</a> */}
           </li>
         </ul>
       </div>
