@@ -1,0 +1,48 @@
+.signup {
+  display: flex;
+  flex-direction: column;
+}
+
+.signup_form {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: start;
+  /* gap: 10px; */
+}
+
+.form_input {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+}
+
+.submit_button {
+  display: flex;
+  align-self: start;
+  /* margin-top: 10px; */
+}
+
+input[type="text"] {
+  width: 300px;
+  padding: 6px 12px;
+  box-sizing: border-box;
+}
+
+input[type="email"] {
+  width: 300px;
+  padding: 6px 12px;
+  box-sizing: border-box;
+}
+
+input[type="password"] {
+  width: 300px;
+  padding: 6px 12px;
+  box-sizing: border-box;
+}
+
+.SignInText {
+  font-weight: bold;
+  font-size: small;
+  text-align: start;
+}
