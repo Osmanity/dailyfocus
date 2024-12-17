@@ -1,5 +1,6 @@
 import { useState } from "react";
 import HabitLista from "./HabitLista";
+import styles from "./Habit.module.css";
 
 /**
  *     Användaren ska kunna skapa en ny rutin och ta bort existerande rutiner.
@@ -36,8 +37,8 @@ import HabitLista from "./HabitLista";
 function Habits() {
   //{id, title, Repetitioner, Prioritet}
   const [rutiner, setRutiner] = useState([]);
-  const [title, setTitle] = useState("");
-  const [Prioritet, setPrioritet] = useState("");
+  const [title, setTitle] = useState(" ");
+  const [Prioritet, setPrioritet] = useState(" ");
   const [Repetitioner, setRepetitioner] = useState();
 
   function läggtillRutiner(e) {
@@ -49,40 +50,50 @@ function Habits() {
       Prioritet
     };
     setRutiner([...rutiner, nyRutin]);
-    setTitle("");
-    setPrioritet("");
+    setTitle(" ");
+    setPrioritet(" ");
     setRepetitioner(0);
   }
-  return (
-    <div className="rutinContainer">
-      <h2> Skapa en nya rutin </h2>
 
-      <form onSubmit={läggtillRutiner}>
-        <input
-          type="text"
-          placeholder="skriv en nya rutin här"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-        />
-        <input
-          type="number"
-          placeholder="Repetitioner"
-          value={Repetitioner}
-          onChange={(e) => setRepetitioner(e.target.value)}
-        />
-        <label htmlFor="Prioritet"> Välj Prioritet på runtinen</label>
-        <select
-          id="Prioritet"
-          value={Prioritet}
-          onChange={(e) => setPrioritet(e.target.value)}
-        >
-          <option value={"hög"}> Hög</option>
-          <option value={"mellan"}> Mellan</option>
-          <option value={"låg"}> Låg</option>
-        </select>
-        <button type="submit"> Lägg till en rutin</button>
-      </form>
-      <HabitLista rutiner={rutiner} />
+  function TabortRutin(id) {
+    setRutiner(rutiner.filter((rutin) => rutin.id !== id));
+  }
+
+  return (
+    <div className={styles.container}>
+      {" "}
+      <h1 className={styles.head}> Lägg till en ny rutin </h1>
+      <div className={styles.rutinContainer}>
+        <form onSubmit={läggtillRutiner} className={styles.form}>
+          <label htmlFor="Prioritet"> Hur många gånger vill di repetera</label>
+          <input
+            type="text"
+            placeholder="skriv en ny rutin här"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            className=""
+          />
+          <label htmlFor="Prioritet"> Hur många gånger vill di repetera</label>
+          <input
+            type="number"
+            placeholder="Repetitioner"
+            value={Repetitioner}
+            onChange={(e) => setRepetitioner(e.target.value)}
+          />
+          <label htmlFor="Prioritet"> Välj Prioritet på runtinen</label>
+          <select
+            id="Prioritet"
+            value={Prioritet}
+            onChange={(e) => setPrioritet(e.target.value)}
+          >
+            <option value={"hög"}> Hög</option>
+            <option value={"mellan"}> Mellan</option>
+            <option value={"låg"}> Låg</option>
+          </select>
+          <button type="submit"> Läg till en rutin</button>
+        </form>
+        <HabitLista rutiner={rutiner} tarbort={TabortRutin} />
+      </div>
     </div>
   );
 }

@@ -1,12 +1,19 @@
-function HabitLista({ rutiner }) {
+import styles from "./Habit.module.css";
+
+function HabitLista({ rutiner, tarbort }) {
   return (
-    <div className="rutinCard">
-      <h1>rutiner</h1>
-      <ul>
+    <div className={styles.rutinCard}>
+      <ul className={styles.listContainer}>
         {rutiner.map((rutin) => (
-          <li key={rutin.id}>
-            {rutin.title}. Prioritet är:({rutin.Prioritet}) gör det(
-            {rutin.Repetitioner}) gånger.
+          <li key={rutin.id} className={styles.list}>
+            <strong> {rutin.title} </strong> Prioritet:
+            <strong></strong>
+            {rutin.Prioritet} <strong></strong> gör
+            <strong>{rutin.Repetitioner}</strong>
+            gånger.
+            <button className={styles.btn} onClick={() => tarbort(rutin.id)}>
+              Ta bort
+            </button>
           </li>
         ))}
       </ul>
