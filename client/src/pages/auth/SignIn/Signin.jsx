@@ -1,17 +1,47 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import styles from "./Signin.module.css";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import axios from "axios";
+import toast from "react-hot-toast";
+import { UserContext } from "../../../../context/userContext";
 
 export const Signin = () => {
+  const navigate = useNavigate();
+  const { user } = useContext(UserContext);
+  if (user) {
+    navigate("/overview");
+  }
   const [UserSignInData, setUserSignInData] = useState({
     email: "",
     password: "",
   });
 
-  const signinUser = (e) => {
+  const signinUser = async (e) => {
     e.preventDefault();
-    axios.get("/");
+    const { email, password } = UserSignInData;
+    try {
+      const { data } = await axios.post("/signin", {
+        email,
+        password,
+      });
+      if (data.error) {
+        toast.error(data.error);
+      } else {
+        setUserSignInData({});
+        toast.success("Login Sucess!");
+        setTimeout(() => {
+          navigate("/overview");
+          window.location.reload();
+        }, 1000);
+      }
+    } catch (error) {
+      if (error.response && error.response.data) {
+        toast.error(error.response.data.error);
+      } else {
+        toast.error("Något gick fel!");
+      }
+      console.log(error);
+    }
   };
 
   return (

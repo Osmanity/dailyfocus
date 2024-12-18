@@ -1,5 +1,5 @@
 function Todos() {
-  return <div>Todos</div>;
+  return <div></div>;
 }
 
 export default Todos;

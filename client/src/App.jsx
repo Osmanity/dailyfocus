@@ -1,6 +1,8 @@
+import { useNavigate } from "react-router";
 import "./App.css";
 
 function App() {
+  const navigate = useNavigate();
   return (
     <div className="Home">
       <h1>DailyFocus</h1>
@@ -9,7 +11,14 @@ function App() {
         och händelser smidigt på ett ställe. Logga in och förenkla ditt liv
         idag!
       </p>
-      <button>Kom igång nu!</button>
+
+      <button
+        onClick={() => {
+          navigate("/signup");
+        }}
+      >
+        Kom igång nu!
+      </button>
     </div>
   );
 }
