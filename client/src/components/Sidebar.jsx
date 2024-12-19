@@ -8,7 +8,7 @@ function Sidebar() {
   const handleSignOut = () => {
     document.cookie = "token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
     setUser(null);
-    window.location.href = "/signin";
+    // window.location.href = "/signin";
   };
 
   if (!user) return null;
@@ -16,9 +16,9 @@ function Sidebar() {
   return (
     <nav className="Sidebar">
       <div className="SideBar-Top">
-        <a href="/overview" className="logo">
+        <Link to="/overview" className="logo">
           Daily Focus
-        </a>
+        </Link>
       </div>
       <div className="Sidebar-center">
         <ul className="nav-links">
@@ -37,9 +37,9 @@ function Sidebar() {
         </ul>
       </div>
       <div className="SideBar-Bottom">
-        <button onClick={handleSignOut} className="logout">
+        <Link className="logout" to="/signin" onClick={handleSignOut}>
           SignOut
-        </button>
+        </Link>
       </div>
     </nav>
   );
