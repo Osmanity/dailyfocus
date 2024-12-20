@@ -43,6 +43,7 @@ function Habits() {
   const [filterPrioritet, setFilterPrioritet] = useState("");
   const [sortera, setSortera] = useState("");
   const [sorteringsordning, setSorteringsordning] = useState("");
+  const [modelÖppen, setModelÖppen] = useState(false);
 
   function läggtillRutiner(e) {
     e.preventDefault();
@@ -56,6 +57,7 @@ function Habits() {
     setTitle(" ");
     setPrioritet(" ");
     setRepetitioner(0);
+    setModelÖppen(false);
   }
 
   function TabortRutin(id) {
@@ -98,93 +100,168 @@ function Habits() {
     return rutiner.filter((rutin) => rutin.Prioritet === filterPrioritet);
   }
 
+  /**Sortering - Ska kunna sorteras på (stigande och fallande):
+
+    Repetitioner
+
+    Prioritet */
+  function SorteraRutiner(rutiner, sortera, sorteringsordning) {
+    const PrioritetOrdning = { låg: 1, mellan: 2, hög: 3 };
+    if (sortera === "ingen" || !sortera) {
+      return rutiner;
+    }
+
+    const sorteradLista = [...rutiner].sort((x, y) => {
+      let xvärde, yvärde;
+      if (sortera === "Repetitioner") {
+        xvärde = x.Repetitioner;
+        yvärde = y.Repetitioner;
+      } else if (sortera === "Prioritet") {
+        xvärde = PrioritetOrdning[x.Prioritet] || 0;
+        yvärde = PrioritetOrdning[y.Prioritet] || 0;
+      } else {
+        return 0;
+      }
+      if (sorteringsordning === "asc") {
+        return xvärde - yvärde;
+      } else {
+        return yvärde - xvärde;
+      }
+    });
+    return sorteradLista;
+  }
+
   const filtreradeRutiner = filterRutiner(rutiner, filterPrioritet);
-
+  const sorteradeOchFiltreradeRutiner = SorteraRutiner(
+    filtreradeRutiner,
+    sortera,
+    sorteringsordning
+  );
   return (
-    <div className={styles.container}>
-      {" "}
-      <h1 className={styles.head}> Lägg till en ny rutin </h1>
-      <div className={styles.rutinContainer}>
-        <form onSubmit={läggtillRutiner} className={styles.form}>
-          <input
-            type="text"
-            placeholder="skriv en ny rutin här"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            className=""
+    <>
+      <div className={styles.container}>
+        <div className="styles.Habits">
+          <h1 className={styles.head}>Mina rutiner </h1>{" "}
+          <HabitLista
+            //rutiner={rutiner}
+            rutiner={sorteradeOchFiltreradeRutiner}
+            tarbort={TabortRutin}
+            updatera={updateraRepetioner}
           />
-          <label htmlFor="Prioritet"> Hur många gånger vill du repetera</label>
-          <input
-            type="number"
-            placeholder="Repetitioner"
-            value={Repetitioner}
-            onChange={(e) => setRepetitioner(e.target.value)}
-          />
-          <label htmlFor="Prioritet"> Välj Prioritet på runtinen</label>
-          {/* <select
-            id="Prioritet"
-            value={Prioritet}
-            onChange={(e) => setPrioritet(e.target.value)}
+        </div>
+        <div className={styles.modelöppen}>
+          <button
+            className={styles.showModal}
+            onClick={() => setModelÖppen(true)}
           >
-            <option value={"hög"}> Hög</option>
-            <option value={"mellan"}> Mellan</option>
-            <option value={"låg"}> Låg</option>
-          </select> */}
-          <div className="styles.priotet">
-            <label>
-              <input
-                type="radio"
-                name="Prioritet"
-                value="hög"
-                checked={Prioritet === "hög"}
-                onChange={(e) => setPrioritet(e.target.value)}
-              />
-              Hög
-            </label>
-            <label>
-              <input
-                type="radio"
-                name="Prioritet"
-                value="mellan"
-                checked={Prioritet === "mellan"}
-                onChange={(e) => setPrioritet(e.target.value)}
-              />
-              Mellan
-            </label>
-            <label>
-              <input
-                type="radio"
-                name="Prioritet"
-                value="låg"
-                checked={Prioritet === "låg"}
-                onChange={(e) => setPrioritet(e.target.value)}
-              />
-              Låg
-            </label>
+            {" "}
+            Skapa nya rutiner
+          </button>
+        </div>
+      </div>
+      {modelÖppen && (
+        <div className={styles.formContainer}>
+          <form onSubmit={läggtillRutiner} className={styles.form}>
+            <input
+              type="text"
+              placeholder="skriv en ny rutin här"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              className={styles.input}
+            />
 
-            <div>
+            <div className={styles.Prioritet}>
+              <label htmlFor="Prioritet">
+                {" "}
+                Hur många gånger vill du repetera
+              </label>
+            </div>
+            <input
+              className={styles.input}
+              type="number"
+              placeholder="Repetitioner"
+              value={Repetitioner}
+              onChange={(e) => setRepetitioner(e.target.value)}
+            />
+            <label htmlFor="Prioritet"> Välj Prioritet på runtinen</label>
+
+            <div className="styles.priotet">
+              <label>
+                <input
+                  className={styles.input}
+                  type="radio"
+                  name="Prioritet"
+                  value="hög"
+                  checked={Prioritet === "hög"}
+                  onChange={(e) => setPrioritet(e.target.value)}
+                />
+                Hög
+              </label>
+              <label>
+                <input
+                  className={styles.input}
+                  type="radio"
+                  name="Prioritet"
+                  value="mellan"
+                  checked={Prioritet === "mellan"}
+                  onChange={(e) => setPrioritet(e.target.value)}
+                />
+                Mellan
+              </label>
+              <label>
+                <input
+                  className={styles.input}
+                  type="radio"
+                  name="Prioritet"
+                  value="låg"
+                  checked={Prioritet === "låg"}
+                  onChange={(e) => setPrioritet(e.target.value)}
+                />
+                Låg
+              </label>
+
+              <div>
+                <select
+                  id="filterPrioritet"
+                  value={filterPrioritet}
+                  onChange={(e) => setFilterPrioritet(e.target.value)}
+                >
+                  <option value="">Alla</option>
+                  <option value="hög">Hög</option>
+                  <option value="mellan">Mellan</option>
+                  <option value="låg">Låg</option>
+                </select>
+              </div>
+            </div>
+            {/* sortera */}
+
+            <div className="styles.sortera">
+              <label htmlFor=""> Sortera:</label>
               <select
-                id="filterPrioritet"
-                value={filterPrioritet}
-                onChange={(e) => setFilterPrioritet(e.target.value)}
+                value={sortera}
+                onChange={(e) => setSortera(e.target.value)}
               >
-                <option value="">Alla</option>
-                <option value="hög">Hög</option>
-                <option value="mellan">Mellan</option>
-                <option value="låg">Låg</option>
+                <option value="ingen">Osorterade Lista</option>
+                <option value="Repetitioner">Repetitioner</option>
+                <option value="Prioritet">Prioritet</option>
+              </select>
+              <select
+                className="styles.sortering"
+                value={sorteringsordning}
+                onChange={(e) => setSorteringsordning(e.target.value)}
+              >
+                <label htmlFor=""> Sotera Fallande eller stigande : </label>
+                <option value="asc">Stigande</option>
+                <option value="desc">Fallande</option>
               </select>
             </div>
-          </div>
-          <button type="submit"> Läg till en rutin</button>
-        </form>
-        <HabitLista
-          //rutiner={rutiner}
-          rutiner={filtreradeRutiner}
-          tarbort={TabortRutin}
-          updatera={updateraRepetioner}
-        />
-      </div>
-    </div>
+            <button type="button" onClick={() => setModelÖppen(false)}>
+              Spara
+            </button>
+          </form>
+        </div>
+      )}
+    </>
   );
 }
 
