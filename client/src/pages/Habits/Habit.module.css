@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 body {
   display: flex;
   background-color: #fef9f2;
@@ -7,6 +8,8 @@ body {
   color: #4a4947;
 }
 
+=======
+>>>>>>> 5a97db2 (Bug fix)
 .container {
   display: flex;
   flex-direction: row;
