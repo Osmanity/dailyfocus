@@ -255,8 +255,9 @@ function Habits() {
                 <option value="desc">Fallande</option>
               </select>
             </div>
+            <button type="submit">Spara</button>
             <button type="button" onClick={() => setModelÖppen(false)}>
-              Spara
+              x
             </button>
           </form>
         </div>
