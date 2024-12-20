@@ -1,6 +1,6 @@
 import styles from "./Habit.module.css";
 
-function HabitLista({ rutiner, tarbort }) {
+function HabitLista({ rutiner, tabort, updatera }) {
   return (
     <div className={styles.rutinCard}>
       <ul className={styles.listContainer}>
@@ -11,7 +11,25 @@ function HabitLista({ rutiner, tarbort }) {
             {rutin.Prioritet} <strong></strong> gör
             <strong>{rutin.Repetitioner}</strong>
             gånger.
-            <button className={styles.btn} onClick={() => tarbort(rutin.id)}>
+            <button
+              className={styles.btn}
+              onClick={() => updatera(rutin.id, "Öka")}
+            >
+              Öka
+            </button>
+            <button
+              className={styles.btn}
+              onClick={() => updatera(rutin.id, "Minska")}
+            >
+              Minska{" "}
+            </button>
+            <button
+              className={styles.btn}
+              onClick={() => updatera(rutin.id, "Nollställa")}
+            >
+              Nollställa{" "}
+            </button>
+            <button className={styles.btn} onClick={() => tabort(rutin.id)}>
               Ta bort
             </button>
           </li>

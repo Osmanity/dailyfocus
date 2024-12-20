@@ -76,3 +76,8 @@ body {
   padding: 0.5rem 1rem;
   color: white;
 }
+
+.priotet {
+  display: flex;
+  gap: 1rem;
+}
