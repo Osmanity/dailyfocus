@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { useContext, useState } from "react";
 import HabitLista from "./HabitLista";
 import styles from "./Habit.module.css";
@@ -11,6 +12,34 @@ function Habits() {
   // ]);
   const { rutiner, setRutiner } = useContext(UserContext);
 
+=======
+import { useEffect, useState } from "react";
+import HabitLista from "./HabitLista";
+import styles from "./Habit.module.css";
+
+function Habits() {
+  const [rutiner, setRutiner] = useState(() => {
+    const spardeRutiner = localStorage.getItem("rutiner");
+    if (spardeRutiner) {
+      try {
+        return JSON.parse(spardeRutiner);
+      } catch (error) {
+        console.error("Något gick fel:", error);
+        return [];
+      }
+    } else {
+      return [
+        { id: 1, title: "Träning", Repetitioner: 2, Prioritet: "hög" },
+        { id: 3, title: "Plugga", Repetitioner: 5, Prioritet: "mellan" },
+        { id: 4, title: "Meditera", Repetitioner: 3, Prioritet: "låg" }
+      ];
+    }
+  });
+
+  useEffect(() => {
+    localStorage.setItem("rutiner", JSON.stringify(rutiner));
+  }, [rutiner]);
+>>>>>>> f1f27c7 (fixat error, och designat om den till globala designen)
   //{id, title, Repetitioner, Prioritet}
   //const [rutiner, setRutiner] = useState([]);
   const [title, setTitle] = useState(" ");
@@ -106,7 +135,10 @@ function Habits() {
     });
     return sorteradLista;
   }
+<<<<<<< HEAD
 
+=======
+>>>>>>> f1f27c7 (fixat error, och designat om den till globala designen)
   //filterade och sorterade listan
   const filtreradeRutiner = filterRutiner(rutiner, filterPrioritet);
   const sorteradeOchFiltreradeRutiner = SorteraRutiner(
