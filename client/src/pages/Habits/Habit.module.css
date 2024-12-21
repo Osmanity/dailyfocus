@@ -1,100 +1,211 @@
-<<<<<<< HEAD
-body {
-  display: flex;
-  background-color: #fef9f2;
-  align-items: flex-start;
-  height: 100%;
-  width: 100%;
-  color: #4a4947;
-}
-
-=======
->>>>>>> 5a97db2 (Bug fix)
 .container {
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  flex-direction: column;
   width: 100%;
-  padding: 5rem;
-  gap: 20px;
-}
-.Habits {
-  width: 50%;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 15px;
 }
 
-.modelöppen {
-  width: 50%;
+.header {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
+  padding: 2rem;
 }
 
-.showModal {
+.content {
+  margin-left: 13rem;
+  padding: 2rem;
+  background-color: #f9f9f9;
+  border-radius: 2.5rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  min-height: calc(100vh - 60px);
+  position: relative;
+}
+.rutinListMainContainer {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  gap: 8px;
+}
+.rutinListContainer {
+  display: flex;
+  align-items: center;
+  padding-right: 15px;
+  padding-left: 10px;
+  margin-top: 50px;
+  width: 282px;
+  min-height: 300px;
+}
+
+.title {
+  text-align: start;
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin: 0;
+  color: black;
+}
+
+.subtitle {
+  text-align: start;
+  font-size: 1.2rem;
+  color: #5c636a;
+  margin: 0;
+}
+
+.nav {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  padding: 10px;
+  background-color: #eaeaea;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+}
+
+.field label {
+  font-size: 1rem;
+  margin-bottom: 5px;
+  color: #444444;
+}
+
+.field select {
+  padding: 10px;
+  border-radius: 6px;
+  font-size: 1rem;
+  height: 40px;
+  border: 1px solid #ddd;
+  box-sizing: border-box;
   background-color: #dbb5b5;
-  padding: 1rem;
-  width: 80%;
-  color: #4a4947;
+  color: #333537;
+}
+
+.createButton {
+  color: #5c636a;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 24px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  background-color: #dbb5b5;
+}
+
+.createButton:hover {
+  background-color: #dbb5b5;
 }
 
 .formContainer {
-  background-color: #ffe3e3;
-  padding: 10rem;
-  justify-content: space-between;
-  border-radius: 10px;
-  box-shadow: 0 6px 5px rgba(0, 0, 0, 0.1);
-  align-items: center;
-  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  border-radius: 15px;
+  margin-top: 20px;
 }
 
 .form {
   display: flex;
+  position: fixed;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 15px;
+  top: 50%;
+  left: 50%;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  height: 20vh;
+  background-color: #dbb5b5;
 }
 
-.input {
-  background-color: #e2bfb3;
-  color: #4a4947;
+.form input,
+.form select {
+  background-color: #dbb5b5;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
 }
 
-button,
-select {
+.form button {
+  /*background-color: #007bff;*/
+  padding: 10px 15px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.form button:hover {
+  background-color: #dbb5b5;
+}
+
+.rutiner {
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.rutiner:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.rutinerHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #333333;
+  margin-bottom: 10px;
+}
+
+.beskrivning {
+  font-size: 1rem;
+  color: #555555;
+  margin: 10px 0;
+  line-height: 1.4;
+}
+
+.rutinFooter {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.rutinFooter .btn,
+.btnsparaOstäng {
   background-color: #dbb5b5;
   color: #4a4947;
-  margin: 1rem;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+.btnsparaOstäng {
+  margin: 2px;
+}
+.option {
+  background-color: #dbb5b5;
+  color: black;
 }
 
-.rutinCard {
-  display: flex;
-  border-radius: 5px;
-  padding: 3px 16px;
-  align-items: center;
-  justify-content: space-between;
+.rutinFooter .btn:hover {
+  background-color: #e2bfb3;
 }
 
-.list {
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  list-style: none;
-  padding: 4rem;
-  margin: 5rem;
-}
-
-.listButtons {
-  display: flex;
-}
-.habitlistText {
-  font-family: sans-serif;
-  font-size: 1em;
-  padding: 9px;
-  margin-bottom: 15px;
-}
-
-.habitlistText h2 {
-  font-size: 1em;
-  margin: 5px 0;
-}
-
-.habitlistText p {
-  font-size: 0.6em;
-  margin: 5px 0;
+.ingarutin {
+  text-align: center;
+  font-size: 1rem;
+  color: #777777;
+  margin-top: 20px;
 }
