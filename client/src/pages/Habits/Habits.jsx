@@ -14,9 +14,9 @@ function Habits() {
       }
     } else {
       return [
-        { id: 1, title: "Träning", Repetitioner: 2, Prioritet: "hög" },
-        { id: 3, title: "Plugga", Repetitioner: 5, Prioritet: "mellan" },
-        { id: 4, title: "Meditera", Repetitioner: 3, Prioritet: "låg" }
+        { id: 1, title: "Träning ", Repetitioner: 2, Prioritet: "hög" },
+        { id: 3, title: "Plugga ", Repetitioner: 5, Prioritet: "mellan" },
+        { id: 4, title: "Meditera ", Repetitioner: 3, Prioritet: "låg" }
       ];
     }
   });
