@@ -1,0 +1,116 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #fff;
+  color: #000;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  height: 100vh;
+  padding: 20px;
+}
+
+div {
+  width: 100%;
+  max-width: 500px;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+input[type="text"],
+input[type="datetime-local"],
+button {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+button {
+  background-color: #000;
+  color: white;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #444;
+}
+
+button:nth-child(3),
+button:nth-child(4),
+button:nth-child(5) {
+  width: auto;
+  margin-right: 10px;
+}
+
+button:nth-child(3):hover,
+button:nth-child(4):hover,
+button:nth-child(5):hover {
+  background-color: #444;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 20px;
+}
+
+li {
+  background-color: #f8f8f8;
+  padding: 12px;
+  margin: 10px 0;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  text-align: left;
+}
+
+h3 {
+  font-size: 20px;
+  color: #000;
+}
+
+p {
+  margin-top: 5px;
+  font-size: 14px;
+  color: #555;
+}
+
+li.past {
+  background-color: #e0e0e0;
+  text-decoration: line-through;
+}
+
+li.upcoming {
+  background-color: #d0d0d0;
+}
+
+@media (max-width: 600px) {
+  div {
+    padding: 15px;
+  }
+
+  h2 {
+    font-size: 20px;
+  }
+
+  input[type="text"],
+  input[type="datetime-local"],
+  button {
+    padding: 10px;
+    font-size: 14px;
+  }
+}
