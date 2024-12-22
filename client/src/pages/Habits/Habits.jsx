@@ -27,7 +27,7 @@ function Habits() {
       id: Date.now(),
       title,
       Repetitioner: Number(Repetitioner) || 0,
-      Prioritet
+      Prioritet,
     };
     setRutiner([...rutiner, nyRutin]);
     setTitle(" ");
@@ -51,12 +51,12 @@ function Habits() {
           if (handling === "Öka") {
             return {
               ...rutin,
-              Repetitioner: rutin.Repetitioner + 1
+              Repetitioner: rutin.Repetitioner + 1,
             };
           } else if (handling === "Minska") {
             return {
               ...rutin,
-              Repetitioner: Math.max(0, rutin.Repetitioner - 1)
+              Repetitioner: Math.max(0, rutin.Repetitioner - 1),
             };
           } else if (handling === "Nollställa") {
             return { ...rutin, Repetitioner: "" };
