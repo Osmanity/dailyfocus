@@ -1,21 +1,16 @@
-import React, { useState, useEffect, useContext } from "react";
-import { UserContext } from "../../../context/userContext";
+import React, { useState, useEffect } from 'react';
+import styles from './Event.module.css';
 
 const Event = () => {
-  // const [events, setEvents] = useState([]);
-  // const [events, setEvents] = useContext(UserContext);
-  const { events, setEvents } = useContext(UserContext);
-
-  console.log(events);
-
-  const [eventName, setEventName] = useState("");
-  const [startTime, setStartTime] = useState("");
-  const [endTime, setEndTime] = useState("");
-  const [filter, setFilter] = useState("all");
+  const [events, setEvents] = useState([]);
+  const [eventName, setEventName] = useState('');
+  const [startTime, setStartTime] = useState('');
+  const [endTime, setEndTime] = useState('');
+  const [filter, setFilter] = useState('all');
   const [editIndex, setEditIndex] = useState(null);
 
   const loadEvents = () => {
-    const savedEvents = localStorage.getItem("events");
+    const savedEvents = localStorage.getItem('events');
     if (savedEvents) {
       return JSON.parse(savedEvents);
     }
@@ -28,7 +23,7 @@ const Event = () => {
   }, []);
 
   const saveEvents = (newEvents) => {
-    localStorage.setItem("events", JSON.stringify(newEvents));
+    localStorage.setItem('events', JSON.stringify(newEvents));
   };
 
   const addEvent = () => {
@@ -41,7 +36,7 @@ const Event = () => {
       };
       setEvents(updatedEvents);
       saveEvents(updatedEvents);
-      setEditIndex(null);
+      setEditIndex(null); 
     } else {
       const newEvent = {
         name: eventName,
@@ -53,9 +48,9 @@ const Event = () => {
       saveEvents(updatedEvents);
     }
 
-    setEventName("");
-    setStartTime("");
-    setEndTime("");
+    setEventName('');
+    setStartTime('');
+    setEndTime('');
   };
 
   const editEvent = (index) => {
@@ -72,7 +67,7 @@ const Event = () => {
     saveEvents(updatedEvents);
   };
 
-  const filteredEvents = events.filter((event) => {
+  const filteredEvents = events.filter(event => {
     const now = new Date();
     if (filter === "coming") return event.start > now;
     if (filter === "past") return event.end < now;
@@ -85,7 +80,10 @@ const Event = () => {
     <div className={styles.eventContainer}>
       <h2>Event-Calendar</h2>
 
-      <form onSubmit={addEvent}>
+      <form className={styles.form} onSubmit={(e) => {
+        e.preventDefault();
+        addEvent();
+      }}>
         <input
           type="text"
           placeholder="Event Name"
@@ -105,20 +103,20 @@ const Event = () => {
           onChange={(e) => setEndTime(e.target.value)}
           required
         />
-        <button onClick="AddEvent">
-          {editIndex !== null ? "Save Changes" : "Add Event"}
+        <button type="submit">
+          {editIndex !== null ? 'Save Changes' : 'Add Event'}
         </button>
       </form>
 
-      <div>
-        <button onClick={() => setFilter("coming")}>Coming Events</button>
-        <button onClick={() => setFilter("past")}>Old Events</button>
-        <button onClick={() => setFilter("all")}>All Events</button>
+      <div className={styles.buttonGroup}>
+        <button onClick={() => setFilter('coming')}>Coming Events</button>
+        <button onClick={() => setFilter('past')}>Old Events</button>
+        <button onClick={() => setFilter('all')}>All Events</button>
       </div>
 
       <ul className={styles.eventList}>
         {filteredEvents.map((event, index) => {
-          const eventClass = event.start > new Date() ? "coming" : "past";
+          const eventClass = event.start > new Date() ? styles.coming : styles.past;
           return (
             <li key={index} className={`${styles.eventItem} ${eventClass}`}>
               <h3>{event.name}</h3>
