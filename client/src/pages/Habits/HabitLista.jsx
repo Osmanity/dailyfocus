@@ -39,7 +39,8 @@ function HabitLista({ rutiner, tarbort, updatera }) {
                   className={styles.btn}
                   onClick={() => tarbort(rutin.id)}
                 >
-                  Ta bort
+                  {" "}
+                  <i className="bi bi-trash"></i>
                 </button>
               </div>
             </div>
