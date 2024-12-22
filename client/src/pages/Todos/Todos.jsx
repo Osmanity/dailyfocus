@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import styles from "./Todos.module.css";
 import TaskModal from "../../components/Todos/TaskModal";
+import { UserContext } from "../../../context/userContext";
 
 const Todos = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -10,91 +11,94 @@ const Todos = () => {
   //   Jobb: [],
   // });
 
-  const [tasks, setTasks] = useState({
-    Hälsa: [
-      {
-        title: "Träna yoga",
-        status: "Ej Utförd",
-        beskrivning: "Gör en 30-minuters yogasession.",
-        tidsestimat: 0.5,
-        deadline: "2024-12-31",
-      },
-      {
-        title: "Gå till läkaren",
-        status: "Utförd",
-        beskrivning: "Årlig hälsokontroll.",
-        tidsestimat: 1,
-        deadline: "2024-12-15",
-      },
-      {
-        title: "Ta en promenad",
-        status: "Ej Utförd",
-        beskrivning: "Gå 5 km i parken.",
-        tidsestimat: 1,
-        deadline: "2024-12-25",
-      },
-      {
-        title: "Meditera",
-        status: "Utförd",
-        beskrivning: "10-minuters mindfulness-session.",
-        tidsestimat: 0.2,
-        deadline: "2024-12-20",
-      },
-    ],
-    Hushåll: [
-      {
-        title: "Städa köket",
-        status: "Ej Utförd",
-        beskrivning: "Disk och rengör alla ytor.",
-        tidsestimat: 0.75,
-        deadline: "2024-12-22",
-      },
-      {
-        title: "Handla mat",
-        status: "Utförd",
-        beskrivning: "Köp ingredienser för veckan.",
-        tidsestimat: 1,
-        deadline: "2024-12-20",
-      },
-      {
-        title: "Tvätta kläder",
-        status: "Ej Utförd",
-        beskrivning: "Tvätta och vik tvätt.",
-        tidsestimat: 2,
-        deadline: "2024-12-23",
-      },
-      {
-        title: "Rensa garderoben",
-        status: "Utförd",
-        beskrivning: "Sortera kläder och donera det som inte används.",
-        tidsestimat: 3,
-        deadline: "2024-12-18",
-      },
-    ],
-    Jobb: [
-      {
-        title: "Skicka rapport",
-        status: "Ej Utförd",
-        beskrivning: "Slutför och skicka Q4-rapporten.",
-        tidsestimat: 2,
-        deadline: "2024-12-23",
-      },
-      {
-        title: "Delta i teammöte",
-        status: "Utförd",
-        beskrivning: "Veckomöte med teamet.",
-        tidsestimat: 1,
-        deadline: "2024-12-19",
-      },
-      {
-        title: "Följ upp med klient",
-        status: "Ej Utförd",
-        beskrivning: "Skicka uppföljningsmail till klienten.",
-        tidsestimat: 0.5,
-        deadline: "2024-12-22",
-      },
-    ],
-  });
+  // const [tasks, setTasks] = useState({
+  //   Hälsa: [
+  //     {
+  //       title: "Träna yoga",
+  //       status: "Ej Utförd",
+  //       beskrivning: "Gör en 30-minuters yogasession.",
+  //       tidsestimat: "0.5",
+  //       deadline: "2024-12-31",
+  //     },
+  //     {
+  //       title: "Gå till läkaren",
+  //       status: "Utförd",
+  //       beskrivning: "Årlig hälsokontroll.",
+  //       tidsestimat: "1",
+  //       deadline: "2024-12-15",
+  //     },
+  //     {
+  //       title: "Ta en promenad",
+  //       status: "Ej Utförd",
+  //       beskrivning: "Gå 5 km i parken.",
+  //       tidsestimat: "1",
+  //       deadline: "2024-12-25",
+  //     },
+  //     {
+  //       title: "Meditera",
+  //       status: "Utförd",
+  //       beskrivning: "10-minuters mindfulness-session.",
+  //       tidsestimat: "0.2",
+  //       deadline: "2024-12-20",
+  //     },
+  //   ],
+  //   Hushåll: [
+  //     {
+  //       title: "Städa köket",
+  //       status: "Ej Utförd",
+  //       beskrivning: "Disk och rengör alla ytor.",
+  //       tidsestimat: "0.75",
+  //       deadline: "2024-12-22",
+  //     },
+  //     {
+  //       title: "Handla mat",
+  //       status: "Utförd",
+  //       beskrivning: "Köp ingredienser för veckan.",
+  //       tidsestimat: "1",
+  //       deadline: "2024-12-20",
+  //     },
+  //     {
+  //       title: "Tvätta kläder",
+  //       status: "Ej Utförd",
+  //       beskrivning: "Tvätta och vik tvätt.",
+  //       tidsestimat: "2",
+  //       deadline: "2024-12-23",
+  //     },
+  //     {
+  //       title: "Rensa garderoben",
+  //       status: "Utförd",
+  //       beskrivning: "Sortera kläder och donera det som inte används.",
+  //       tidsestimat: "3",
+  //       deadline: "2024-12-18",
+  //     },
+  //   ],
+  //   Jobb: [
+  //     {
+  //       title: "Skicka rapport",
+  //       status: "Ej Utförd",
+  //       beskrivning: "Slutför och skicka Q4-rapporten.",
+  //       tidsestimat: "2",
+  //       deadline: "2024-12-23",
+  //     },
+  //     {
+  //       title: "Delta i teammöte",
+  //       status: "Utförd",
+  //       beskrivning: "Veckomöte med teamet.",
+  //       tidsestimat: "1",
+  //       deadline: "2024-12-19",
+  //     },
+  //     {
+  //       title: "Följ upp med klient",
+  //       status: "Ej Utförd",
+  //       beskrivning: "Skicka uppföljningsmail till klienten.",
+  //       tidsestimat: "0.5",
+  //       deadline: "2024-12-22",
+  //     },
+  //   ],
+  // });
+  const { tasks, setTasks } = useContext(UserContext);
+
+  console.log(tasks);
 
   const [filteredCategory, setFilteredCategory] = useState("Alla");
   const [filteredStatus, setFilteredStatus] = useState("Alla");
@@ -121,6 +125,8 @@ const Todos = () => {
   };
 
   const handleSortChange = (category, criteria) => {
+    if (criteria === "Alla") return;
+
     setSortOrder((prevSortOrder) => {
       const newSortOrder = {
         ...prevSortOrder,
@@ -130,16 +136,18 @@ const Todos = () => {
       setTasks((prevTasks) => ({
         ...prevTasks,
         [category]: [...prevTasks[category]].sort((a, b) => {
-          const isNumeric =
-            typeof a[criteria] === "number" && typeof b[criteria] === "number";
+          let aValue = a[criteria] ?? "";
+          let bValue = b[criteria] ?? "";
+
+          if (criteria === "tidsestimat") {
+            aValue = parseFloat(aValue);
+            bValue = parseFloat(bValue);
+          }
+
           if (newSortOrder[category] === "asc") {
-            return isNumeric
-              ? a[criteria] - b[criteria]
-              : a[criteria].localeCompare(b[criteria]);
+            return aValue > bValue ? 1 : -1;
           } else {
-            return isNumeric
-              ? b[criteria] - a[criteria]
-              : b[criteria].localeCompare(a[criteria]);
+            return aValue < bValue ? 1 : -1;
           }
         }),
       }));
@@ -242,6 +250,7 @@ const Todos = () => {
                     </div>
                     <select
                       id="taskSorter"
+                      defaultValue="Alla" // Sätt "Alla" som standard
                       onChange={(e) =>
                         handleSortChange(category, e.target.value)
                       }
