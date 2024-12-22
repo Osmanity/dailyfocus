@@ -32,6 +32,7 @@ const Event = () => {
         name: eventName,
         start: new Date(startTime),
         end: new Date(endTime),
+        
       };
       setEvents(updatedEvents);
       saveEvents(updatedEvents);
@@ -68,7 +69,7 @@ const Event = () => {
 
   const filteredEvents = events.filter(event => {
     const now = new Date();
-    if (filter === 'upcoming') return event.start > now;
+    if (filter === 'coming') return event.start > now;
     if (filter === 'past') return event.end < now;
     return true;
   });
@@ -79,35 +80,41 @@ const Event = () => {
     <div>
       <h2>Event-Calendar</h2>
 
+     
+      <form onSubmit={addEvent}>
       <input
         type="text"
         placeholder="Event Name"
         value={eventName}
         onChange={(e) => setEventName(e.target.value)}
+        required
       />
       <input
         type="datetime-local"
         value={startTime}
         onChange={(e) => setStartTime(e.target.value)}
+        required
       />
       <input
         type="datetime-local"
         value={endTime}
         onChange={(e) => setEndTime(e.target.value)}
+        required
       />
-      <button onClick={addEvent}>
+      <button onClick='AddEvent'>
         {editIndex !== null ? 'Save Changes' : 'Add Event'}
       </button>
-
+      </form>
+      
       <div>
-        <button onClick={() => setFilter('upcoming')}>Coming Events</button>
+        <button onClick={() => setFilter('coming')}>Coming Events</button>
         <button onClick={() => setFilter('past')}>Old Events</button>
         <button onClick={() => setFilter('all')}>All Events</button>
       </div>
 
       <ul>
         {filteredEvents.map((event, index) => {
-          const eventClass = event.start > new Date() ? 'upcoming' : 'past';
+          const eventClass = event.start > new Date() ? 'coming' : 'past';
           return (
             <li key={index} className={eventClass}>
               <h3>{event.name}</h3>
