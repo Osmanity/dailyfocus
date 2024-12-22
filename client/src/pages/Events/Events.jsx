@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import styles from './Event.module.css';
 
 const Event = () => {
   const [events, setEvents] = useState([]);
@@ -32,7 +33,6 @@ const Event = () => {
         name: eventName,
         start: new Date(startTime),
         end: new Date(endTime),
-        
       };
       setEvents(updatedEvents);
       saveEvents(updatedEvents);
@@ -77,46 +77,48 @@ const Event = () => {
   filteredEvents.sort((a, b) => a.start - b.start);
 
   return (
-    <div>
+    <div className={styles.eventContainer}>
       <h2>Event-Calendar</h2>
 
-     
-      <form onSubmit={addEvent}>
-      <input
-        type="text"
-        placeholder="Event Name"
-        value={eventName}
-        onChange={(e) => setEventName(e.target.value)}
-        required
-      />
-      <input
-        type="datetime-local"
-        value={startTime}
-        onChange={(e) => setStartTime(e.target.value)}
-        required
-      />
-      <input
-        type="datetime-local"
-        value={endTime}
-        onChange={(e) => setEndTime(e.target.value)}
-        required
-      />
-      <button onClick='AddEvent'>
-        {editIndex !== null ? 'Save Changes' : 'Add Event'}
-      </button>
+      <form className={styles.form} onSubmit={(e) => {
+        e.preventDefault();
+        addEvent();
+      }}>
+        <input
+          type="text"
+          placeholder="Event Name"
+          value={eventName}
+          onChange={(e) => setEventName(e.target.value)}
+          required
+        />
+        <input
+          type="datetime-local"
+          value={startTime}
+          onChange={(e) => setStartTime(e.target.value)}
+          required
+        />
+        <input
+          type="datetime-local"
+          value={endTime}
+          onChange={(e) => setEndTime(e.target.value)}
+          required
+        />
+        <button type="submit">
+          {editIndex !== null ? 'Save Changes' : 'Add Event'}
+        </button>
       </form>
-      
-      <div>
+
+      <div className={styles.buttonGroup}>
         <button onClick={() => setFilter('coming')}>Coming Events</button>
         <button onClick={() => setFilter('past')}>Old Events</button>
         <button onClick={() => setFilter('all')}>All Events</button>
       </div>
 
-      <ul>
+      <ul className={styles.eventList}>
         {filteredEvents.map((event, index) => {
-          const eventClass = event.start > new Date() ? 'coming' : 'past';
+          const eventClass = event.start > new Date() ? styles.coming : styles.past;
           return (
-            <li key={index} className={eventClass}>
+            <li key={index} className={`${styles.eventItem} ${eventClass}`}>
               <h3>{event.name}</h3>
               <p>Start: {event.start.toLocaleString()}</p>
               <p>End: {event.end.toLocaleString()}</p>
