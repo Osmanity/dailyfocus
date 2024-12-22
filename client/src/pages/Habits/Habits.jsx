@@ -174,44 +174,56 @@ function Habits() {
         />
 
         {modelÖppen && (
-          <div className={styles.formContainer}>
-            <div className={styles.content}>
+          <div className={styles.modalOverlay}>
+            <div className={styles.modal}>
+              <h2>Skapa Ny Rutin</h2>
               <form onSubmit={läggtillRutiner}>
-                <input
-                  className={styles.option}
-                  type="text"
-                  placeholder="Skriv en ny rutin här"
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                />
-                <label>Repetitioner:</label>
-                <input
-                  className={styles.option}
-                  type="number"
-                  placeholder="Repetitioner"
-                  value={Repetitioner}
-                  onChange={(e) => setRepetitioner(e.target.value)}
-                />
-                <label>Prioritet:</label>
-                <select
-                  className={styles.option}
-                  value={Prioritet}
-                  onChange={(e) => setPrioritet(e.target.value)}
-                >
-                  <option value="hög">Hög</option>
-                  <option value="mellan">Mellan</option>
-                  <option value="låg">Låg</option>
-                </select>
-                <button className={styles.btnsparaOstäng} type="submit">
-                  Spara
-                </button>
-                <button
-                  className={styles.btnsparaOstäng}
-                  type="button"
-                  onClick={() => setModelÖppen(false)}
-                >
-                  Stäng
-                </button>
+                <div className={styles.field}>
+                  <label htmlFor="title">Titel:</label>
+                  <input
+                    id="title"
+                    type="text"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className={styles.field}>
+                  <label htmlFor="Repetitioner">Repetitioner:</label>
+                  <input
+                    id="Repetitioner"
+                    type="number"
+                    value={Repetitioner}
+                    onChange={(e) => setRepetitioner(e.target.value)}
+                    min="0"
+                    required
+                  />
+                </div>
+                <div className={styles.field}>
+                  <label htmlFor="Prioritet">Prioritet:</label>
+                  <select
+                    id="Prioritet"
+                    value={Prioritet}
+                    onChange={(e) => setPrioritet(e.target.value)}
+                    required
+                  >
+                    <option value="hög">Hög</option>
+                    <option value="mellan">Mellan</option>
+                    <option value="låg">Låg</option>
+                  </select>
+                </div>
+                <div className={styles.buttonRow}>
+                  <button type="submit" className={styles.saveButton}>
+                    Spara
+                  </button>
+                  <button
+                    type="button"
+                    className={styles.cancelButton}
+                    onClick={() => setModelÖppen(false)}
+                  >
+                    Avbryt
+                  </button>
+                </div>
               </form>
             </div>
           </div>
