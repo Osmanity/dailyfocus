@@ -13,6 +13,7 @@ import { Signin } from "./pages/auth/SignIn/Signin.jsx";
 import axios from "axios";
 import { Toaster } from "react-hot-toast";
 import { UserContextProvider } from "../context/userContext";
+import TaskDetails from "./components/Todos/Taskdetail/Taskdetail.jsx";
 
 axios.defaults.baseURL = "http://localhost:8000";
 axios.defaults.withCredentials = true;
@@ -31,6 +32,10 @@ createRoot(document.getElementById("root")).render(
               <Route path="/signin" element={<Signin />} />
               <Route path="/overview" element={<Overview />} />
               <Route path="/todos" element={<Todos />} />
+              <Route
+                path="/todos/:category/:taskIndex"
+                element={<TaskDetails />}
+              />
               <Route path="/habits" element={<Habits />} />
               <Route path="/events" element={<Events />} />
             </Routes>
