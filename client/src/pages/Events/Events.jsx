@@ -82,7 +82,7 @@ const Event = () => {
   filteredEvents.sort((a, b) => a.start - b.start);
 
   return (
-    <div>
+    <div className={styles.eventContainer}>
       <h2>Event-Calendar</h2>
 
       <form onSubmit={addEvent}>
@@ -116,11 +116,11 @@ const Event = () => {
         <button onClick={() => setFilter("all")}>All Events</button>
       </div>
 
-      <ul>
+      <ul className={styles.eventList}>
         {filteredEvents.map((event, index) => {
           const eventClass = event.start > new Date() ? "coming" : "past";
           return (
-            <li key={index} className={eventClass}>
+            <li key={index} className={`${styles.eventItem} ${eventClass}`}>
               <h3>{event.name}</h3>
               <p>Start: {event.start.toLocaleString()}</p>
               <p>End: {event.end.toLocaleString()}</p>
