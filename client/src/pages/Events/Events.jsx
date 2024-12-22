@@ -37,7 +37,7 @@ const Event = () => {
       updatedEvents[editIndex] = {
         name: eventName,
         start: new Date(startTime),
-        end: new Date(endTime),
+        end: new Date(endTime)
       };
       setEvents(updatedEvents);
       saveEvents(updatedEvents);
@@ -46,7 +46,7 @@ const Event = () => {
       const newEvent = {
         name: eventName,
         start: new Date(startTime),
-        end: new Date(endTime),
+        end: new Date(endTime)
       };
       const updatedEvents = [...events, newEvent];
       setEvents(updatedEvents);
