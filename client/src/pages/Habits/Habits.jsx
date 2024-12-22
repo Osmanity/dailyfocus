@@ -27,7 +27,7 @@ function Habits() {
       id: Date.now(),
       title,
       Repetitioner: Number(Repetitioner) || 0,
-      Prioritet,
+      Prioritet
     };
     setRutiner([...rutiner, nyRutin]);
     setTitle(" ");
@@ -51,12 +51,12 @@ function Habits() {
           if (handling === "Öka") {
             return {
               ...rutin,
-              Repetitioner: rutin.Repetitioner + 1,
+              Repetitioner: rutin.Repetitioner + 1
             };
           } else if (handling === "Minska") {
             return {
               ...rutin,
-              Repetitioner: Math.max(0, rutin.Repetitioner - 1),
+              Repetitioner: Math.max(0, rutin.Repetitioner - 1)
             };
           } else if (handling === "Nollställa") {
             return { ...rutin, Repetitioner: "" };
@@ -82,6 +82,7 @@ function Habits() {
 
     Prioritet */
   function SorteraRutiner(rutiner, sortera, sorteringsordning) {
+    //omvandlar till nummer för att lättare kunna jämföra
     const PrioritetOrdning = { låg: 1, mellan: 2, hög: 3 };
     if (sortera === "ingen" || !sortera) {
       return rutiner;
@@ -93,13 +94,16 @@ function Habits() {
         xvärde = x.Repetitioner;
         yvärde = y.Repetitioner;
       } else if (sortera === "Prioritet") {
-        xvärde = PrioritetOrdning[x.Prioritet] || 0;
-        yvärde = PrioritetOrdning[y.Prioritet] || 0;
+        //hämtar in numeraska värden för Prioritet, hög:3, mellan:2 , låg:1
+        xvärde = PrioritetOrdning[x.Prioritet];
+        yvärde = PrioritetOrdning[y.Prioritet];
       } else {
         return 0;
       }
+      // Stigande
       if (sorteringsordning === "asc") {
         return xvärde - yvärde;
+        //Fallande
       } else {
         return yvärde - xvärde;
       }
@@ -109,6 +113,7 @@ function Habits() {
 
   //filterade och sorterade listan
   const filtreradeRutiner = filterRutiner(rutiner, filterPrioritet);
+
   const sorteradeOchFiltreradeRutiner = SorteraRutiner(
     filtreradeRutiner,
     sortera,
