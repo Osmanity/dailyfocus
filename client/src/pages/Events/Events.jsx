@@ -77,13 +77,25 @@ const Event = () => {
   filteredEvents.sort((a, b) => a.start - b.start);
 
   return (
-    <div className={styles.eventContainer}>
-      <h2>Event-Calendar</h2>
+    <div className={styles.Container}>
+      <div className={styles.content}>
+        <div className={styles.header}>
+      <h1 className={styles.title}>My Events</h1>
+      <h2 className={styles.subtitle}></h2> 
+      </div>
 
-      <form className={styles.form} onSubmit={(e) => {
+      <div className={styles.nav}>
+        <button onClick={() => setFilter('coming')}>Coming Events</button>
+        <button onClick={() => setFilter('past')}>Old Events</button>
+        <button onClick={() => setFilter('all')}>All Events</button>
+      </div>
+
+      <>
+      <form onSubmit={(e) => {
         e.preventDefault();
         addEvent();
       }}>
+        
         <input
           type="text"
           placeholder="Event Name"
@@ -107,28 +119,26 @@ const Event = () => {
           {editIndex !== null ? 'Save Changes' : 'Add Event'}
         </button>
       </form>
-
-      <div className={styles.buttonGroup}>
-        <button onClick={() => setFilter('coming')}>Coming Events</button>
-        <button onClick={() => setFilter('past')}>Old Events</button>
-        <button onClick={() => setFilter('all')}>All Events</button>
-      </div>
-
-      <ul className={styles.eventList}>
+      </>
+     
+      <div className={styles.eventList}>
+      <ul className={styles.rutinListMainContainer}>
         {filteredEvents.map((event, index) => {
           const eventClass = event.start > new Date() ? styles.coming : styles.past;
           return (
-            <li key={index} className={`${styles.eventItem} ${eventClass}`}>
+            <li key={index} className={styles.rutinListContainer}>
               <h3>{event.name}</h3>
               <p>Start: {event.start.toLocaleString()}</p>
               <p>End: {event.end.toLocaleString()}</p>
-              <button onClick={() => editEvent(index)}>Edit</button>
-              <button onClick={() => deleteEvent(index)}>Remove</button>
+              <button className={styles.createButton} onClick={() => editEvent(index)}>Edit</button>
+              <button className={styles.createButton} onClick={() => deleteEvent(index)}>Remove</button>
             </li>
           );
         })}
       </ul>
+      </div>
     </div>
+   </div>
   );
 };
 
