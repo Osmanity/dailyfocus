@@ -4,7 +4,7 @@ import "./index.css";
 import App from "./App.jsx";
 import { BrowserRouter, Route, Routes } from "react-router";
 import Sidebar from "./components/Sidebar.jsx";
-import Overview from "./pages/Overview.jsx";
+import Overview from "./pages/Overview/Overview.jsx";
 import Todos from "./pages/Todos/Todos.jsx";
 import Habits from "./pages/Habits/Habits.jsx";
 import Events from "./pages/Events/Events.jsx";
