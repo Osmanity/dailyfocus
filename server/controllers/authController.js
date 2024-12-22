@@ -1,6 +1,7 @@
 const User = require("../models/user");
 const { hashPassword, comparePassword } = require("../helper/auth");
 const jwt = require("jsonwebtoken");
+const OpenAI = require("openai");
 
 const test = (req, res) => {
   res.json("Test is working");
@@ -116,9 +117,55 @@ const GetProfileUser = async (req, res) => {
   }
 };
 
+// Konfiguration för OpenAI
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
+});
+
+// Funktion för hälsning och citat
+const GetGreetingWithQuote = async (req, res) => {
+  console.log("GetGreetingWithQuote function has been called");
+  try {
+    const { token } = req.cookies;
+    if (!token) {
+      return res.status(401).json({ error: "Ingen åtkomst" });
+    }
+
+    jwt.verify(token, process.env.JWT_SECRET, {}, async (err, user) => {
+      if (err) {
+        return res.status(403).json({ error: "Ogiltig token" });
+      }
+
+      // Generate a motivational quote in Swedish using OpenAI's API
+      const response = await openai.chat.completions.create({
+        model: "gpt-3.5-turbo",
+        messages: [
+          {
+            role: "user",
+            content:
+              "Skapa ett motiverande citat på svenska, högst 20 tecken, baserat på inspiration från kända citat, med att nämna upphovspersonen. i slutet",
+          },
+        ],
+        max_tokens: 50,
+      });
+
+      const quote = response.choices[0].message.content.trim();
+
+      res.json({
+        greeting: `Välkommen, ${user.name}!`,
+        quote: quote,
+      });
+    });
+  } catch (error) {
+    console.error("Error in genarting greeting", error);
+    res.status(500).json({ error: "Cound not genarting greeting in backend" });
+  }
+};
+
 module.exports = {
   test,
   signupUser,
   signinUser,
   GetProfileUser,
+  GetGreetingWithQuote,
 };
