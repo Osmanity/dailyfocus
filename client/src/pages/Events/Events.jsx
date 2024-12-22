@@ -1,16 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import styles from './Event.module.css';
+import React, { useState, useEffect, useContext } from "react";
+import { UserContext } from "../../../context/userContext";
 
 const Event = () => {
-  const [events, setEvents] = useState([]);
-  const [eventName, setEventName] = useState('');
-  const [startTime, setStartTime] = useState('');
-  const [endTime, setEndTime] = useState('');
-  const [filter, setFilter] = useState('all');
+  // const [events, setEvents] = useState([]);
+  // const [events, setEvents] = useContext(UserContext);
+  const { events, setEvents } = useContext(UserContext);
+
+  console.log(events);
+
+  const [eventName, setEventName] = useState("");
+  const [startTime, setStartTime] = useState("");
+  const [endTime, setEndTime] = useState("");
+  const [filter, setFilter] = useState("all");
   const [editIndex, setEditIndex] = useState(null);
 
   const loadEvents = () => {
-    const savedEvents = localStorage.getItem('events');
+    const savedEvents = localStorage.getItem("events");
     if (savedEvents) {
       return JSON.parse(savedEvents);
     }
@@ -23,7 +30,7 @@ const Event = () => {
   }, []);
 
   const saveEvents = (newEvents) => {
-    localStorage.setItem('events', JSON.stringify(newEvents));
+    localStorage.setItem("events", JSON.stringify(newEvents));
   };
 
   const addEvent = () => {
@@ -36,7 +43,7 @@ const Event = () => {
       };
       setEvents(updatedEvents);
       saveEvents(updatedEvents);
-      setEditIndex(null); 
+      setEditIndex(null);
     } else {
       const newEvent = {
         name: eventName,
@@ -48,9 +55,9 @@ const Event = () => {
       saveEvents(updatedEvents);
     }
 
-    setEventName('');
-    setStartTime('');
-    setEndTime('');
+    setEventName("");
+    setStartTime("");
+    setEndTime("");
   };
 
   const editEvent = (index) => {
@@ -67,10 +74,10 @@ const Event = () => {
     saveEvents(updatedEvents);
   };
 
-  const filteredEvents = events.filter(event => {
+  const filteredEvents = events.filter((event) => {
     const now = new Date();
-    if (filter === 'coming') return event.start > now;
-    if (filter === 'past') return event.end < now;
+    if (filter === "upcoming") return event.start > now;
+    if (filter === "past") return event.end < now;
     return true;
   });
 
