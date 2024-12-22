@@ -37,7 +37,7 @@ const Event = () => {
       updatedEvents[editIndex] = {
         name: eventName,
         start: new Date(startTime),
-        end: new Date(endTime),
+        end: new Date(endTime)
       };
       setEvents(updatedEvents);
       saveEvents(updatedEvents);
@@ -46,7 +46,7 @@ const Event = () => {
       const newEvent = {
         name: eventName,
         start: new Date(startTime),
-        end: new Date(endTime),
+        end: new Date(endTime)
       };
       const updatedEvents = [...events, newEvent];
       setEvents(updatedEvents);
@@ -85,25 +85,30 @@ const Event = () => {
     <div>
       <h2>Event-Calendar</h2>
 
-      <input
-        type="text"
-        placeholder="Event Name"
-        value={eventName}
-        onChange={(e) => setEventName(e.target.value)}
-      />
-      <input
-        type="datetime-local"
-        value={startTime}
-        onChange={(e) => setStartTime(e.target.value)}
-      />
-      <input
-        type="datetime-local"
-        value={endTime}
-        onChange={(e) => setEndTime(e.target.value)}
-      />
-      <button onClick={addEvent}>
-        {editIndex !== null ? "Save Changes" : "Add Event"}
-      </button>
+      <form onSubmit={addEvent}>
+        <input
+          type="text"
+          placeholder="Event Name"
+          value={eventName}
+          onChange={(e) => setEventName(e.target.value)}
+          required
+        />
+        <input
+          type="datetime-local"
+          value={startTime}
+          onChange={(e) => setStartTime(e.target.value)}
+          required
+        />
+        <input
+          type="datetime-local"
+          value={endTime}
+          onChange={(e) => setEndTime(e.target.value)}
+          required
+        />
+        <button onClick={addEvent}>
+          {editIndex !== null ? "Save Changes" : "Add Event"}
+        </button>
+      </form>
 
       <div>
         <button onClick={() => setFilter("upcoming")}>Coming Events</button>
