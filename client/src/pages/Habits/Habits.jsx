@@ -1,29 +1,16 @@
-import { useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import HabitLista from "./HabitLista";
 import styles from "./Habit.module.css";
+import { UserContext } from "../../../context/userContext";
 
 function Habits() {
-  const [rutiner, setRutiner] = useState(() => {
-    const spardeRutiner = localStorage.getItem("rutiner");
-    if (spardeRutiner) {
-      try {
-        return JSON.parse(spardeRutiner);
-      } catch (error) {
-        console.error("Något gick fel:", error);
-        return [];
-      }
-    } else {
-      return [
-        { id: 1, title: "Träning", Repetitioner: 2, Prioritet: "hög" },
-        { id: 3, title: "Plugga", Repetitioner: 5, Prioritet: "mellan" },
-        { id: 4, title: "Meditera", Repetitioner: 3, Prioritet: "låg" }
-      ];
-    }
-  });
+  // const [rutiner, setRutiner] = useState([
+  //   { id: 1, title: "Träning", Repetitioner: 2, Prioritet: "hög" },
+  //   { id: 3, title: "Plugga", Repetitioner: 5, Prioritet: "mellan" },
+  //   { id: 4, title: "Meditera", Repetitioner: 3, Prioritet: "låg" },
+  // ]);
+  const { rutiner, setRutiner } = useContext(UserContext);
 
-  useEffect(() => {
-    localStorage.setItem("rutiner", JSON.stringify(rutiner));
-  }, [rutiner]);
   //{id, title, Repetitioner, Prioritet}
   //const [rutiner, setRutiner] = useState([]);
   const [title, setTitle] = useState(" ");
@@ -40,7 +27,7 @@ function Habits() {
       id: Date.now(),
       title,
       Repetitioner: Number(Repetitioner) || 0,
-      Prioritet
+      Prioritet,
     };
     setRutiner([...rutiner, nyRutin]);
     setTitle(" ");
@@ -64,12 +51,12 @@ function Habits() {
           if (handling === "Öka") {
             return {
               ...rutin,
-              Repetitioner: rutin.Repetitioner + 1
+              Repetitioner: rutin.Repetitioner + 1,
             };
           } else if (handling === "Minska") {
             return {
               ...rutin,
-              Repetitioner: Math.max(0, rutin.Repetitioner - 1)
+              Repetitioner: Math.max(0, rutin.Repetitioner - 1),
             };
           } else if (handling === "Nollställa") {
             return { ...rutin, Repetitioner: "" };
@@ -119,6 +106,7 @@ function Habits() {
     });
     return sorteradLista;
   }
+
   //filterade och sorterade listan
   const filtreradeRutiner = filterRutiner(rutiner, filterPrioritet);
   const sorteradeOchFiltreradeRutiner = SorteraRutiner(
