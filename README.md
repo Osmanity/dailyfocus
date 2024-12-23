@@ -19,7 +19,7 @@ Följ dessa steg för att starta och använda DailyFocus:
    JWT_SECRET=osmanity
    OPENAI_API_KEY=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
    ```
-4. Starta utvecklingsservern:
+4. Starta igång utvecklingsservern:
    ```bash
    npm run dev
    ```
@@ -34,7 +34,7 @@ Följ dessa steg för att starta och använda DailyFocus:
    ```bash
    npm install
    ```
-4. Starta igång Webb Applikations:
+4. Starta igång webbapplikationen:
    ```bash
    npm run dev
    ```
