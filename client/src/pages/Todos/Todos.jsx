@@ -1,19 +1,27 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import styles from "./Todos.module.css";
 import TaskModal from "../../components/Todos/TaskModal";
 import { UserContext } from "../../../context/userContext";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 
 const Todos = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { tasks, setTasks } = useContext(UserContext);
 
-  console.log(tasks);
-
+  // console.log(tasks);
+  //
   const [filteredCategory, setFilteredCategory] = useState("Alla");
   const [filteredStatus, setFilteredStatus] = useState("Alla");
   const [sortOrder, setSortOrder] = useState({});
+
+  const { user } = useContext(UserContext);
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!user) {
+      navigate("/signin");
+    }
+  }, [user, navigate]);
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
@@ -23,7 +31,7 @@ const Todos = () => {
 
     setTasks((prevTasks) => ({
       ...prevTasks,
-      [category]: [...prevTasks[category], newTask],
+      [category]: [...(prevTasks[category] || []), newTask],
     }));
 
     closeModal();
@@ -44,24 +52,27 @@ const Todos = () => {
         [category]: prevSortOrder[category] === "asc" ? "desc" : "asc",
       };
 
-      setTasks((prevTasks) => ({
-        ...prevTasks,
-        [category]: [...prevTasks[category]].sort((a, b) => {
-          let aValue = a[criteria] ?? "";
-          let bValue = b[criteria] ?? "";
+      setTasks((prevTasks) => {
+        const categoryTasks = prevTasks[category] || [];
+        return {
+          ...prevTasks,
+          [category]: [...categoryTasks].sort((a, b) => {
+            let aValue = a[criteria] ?? "";
+            let bValue = b[criteria] ?? "";
 
-          if (criteria === "tidsestimat") {
-            aValue = parseFloat(aValue);
-            bValue = parseFloat(bValue);
-          }
+            if (criteria === "tidsestimat") {
+              aValue = parseFloat(aValue);
+              bValue = parseFloat(bValue);
+            }
 
-          if (newSortOrder[category] === "asc") {
-            return aValue > bValue ? 1 : -1;
-          } else {
-            return aValue < bValue ? 1 : -1;
-          }
-        }),
-      }));
+            if (newSortOrder[category] === "asc") {
+              return aValue > bValue ? 1 : -1;
+            } else {
+              return aValue < bValue ? 1 : -1;
+            }
+          }),
+        };
+      });
 
       return newSortOrder;
     });
@@ -71,6 +82,8 @@ const Todos = () => {
     if (filteredCategory !== "Alla" && filteredCategory !== category) {
       return result;
     }
+
+    const categoryTasks = tasks[category] || [];
 
     const filteredCategoryTasks = tasks[category].filter((task) => {
       if (filteredStatus === "Alla") return true;

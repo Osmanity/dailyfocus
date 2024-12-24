@@ -1,7 +1,8 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import HabitLista from "./HabitLista";
 import styles from "./Habit.module.css";
 import { UserContext } from "../../../context/userContext";
+import { useNavigate } from "react-router";
 
 function Habits() {
   // const [rutiner, setRutiner] = useState([
@@ -20,6 +21,14 @@ function Habits() {
   const [sortera, setSortera] = useState("");
   const [sorteringsordning, setSorteringsordning] = useState("");
   const [modelÖppen, setModelÖppen] = useState(false);
+
+  const { user } = useContext(UserContext);
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!user) {
+      navigate("/signin");
+    }
+  }, [user, navigate]);
 
   function läggtillRutiner(e) {
     e.preventDefault();

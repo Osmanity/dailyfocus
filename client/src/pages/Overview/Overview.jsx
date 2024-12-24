@@ -2,14 +2,22 @@ import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../../context/userContext";
 import styles from "./Overview.module.css";
 import axios from "axios";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 
 function Overview() {
-  const { user, tasks } = useContext(UserContext);
-  const { rutiner, setRutiner } = useContext(UserContext);
-  const { events, setEvents } = useContext(UserContext);
+  const { tasks } = useContext(UserContext);
+  const { rutiner } = useContext(UserContext);
+  const { events } = useContext(UserContext);
 
   const [quote, setQuote] = useState("");
+
+  const { user } = useContext(UserContext);
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!user) {
+      navigate("/signin");
+    }
+  }, [user, navigate]);
 
   useEffect(() => {
     const fetchQuote = async () => {

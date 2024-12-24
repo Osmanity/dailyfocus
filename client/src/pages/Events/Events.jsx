@@ -1,16 +1,26 @@
-import React, { useState, useEffect } from 'react';
-import styles from './Event.module.css';
+import React, { useState, useEffect, useContext } from "react";
+import styles from "./Event.module.css";
+import { UserContext } from "../../../context/userContext";
+import { useNavigate } from "react-router";
 
 const Event = () => {
   const [events, setEvents] = useState([]);
-  const [eventName, setEventName] = useState('');
-  const [startTime, setStartTime] = useState('');
-  const [endTime, setEndTime] = useState('');
-  const [filter, setFilter] = useState('all');
+  const [eventName, setEventName] = useState("");
+  const [startTime, setStartTime] = useState("");
+  const [endTime, setEndTime] = useState("");
+  const [filter, setFilter] = useState("all");
   const [editIndex, setEditIndex] = useState(null);
 
+  const { user } = useContext(UserContext);
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!user) {
+      navigate("/signin");
+    }
+  }, [user, navigate]);
+
   const loadEvents = () => {
-    const savedEvents = localStorage.getItem('events');
+    const savedEvents = localStorage.getItem("events");
     if (savedEvents) {
       return JSON.parse(savedEvents);
     }
@@ -23,7 +33,7 @@ const Event = () => {
   }, []);
 
   const saveEvents = (newEvents) => {
-    localStorage.setItem('events', JSON.stringify(newEvents));
+    localStorage.setItem("events", JSON.stringify(newEvents));
   };
 
   const addEvent = () => {
@@ -32,25 +42,25 @@ const Event = () => {
       updatedEvents[editIndex] = {
         name: eventName,
         start: new Date(startTime),
-        end: new Date(endTime)
+        end: new Date(endTime),
       };
       setEvents(updatedEvents);
       saveEvents(updatedEvents);
-      setEditIndex(null); 
+      setEditIndex(null);
     } else {
       const newEvent = {
         name: eventName,
         start: new Date(startTime),
-        end: new Date(endTime)
+        end: new Date(endTime),
       };
       const updatedEvents = [...events, newEvent];
       setEvents(updatedEvents);
       saveEvents(updatedEvents);
     }
 
-    setEventName('');
-    setStartTime('');
-    setEndTime('');
+    setEventName("");
+    setStartTime("");
+    setEndTime("");
   };
 
   const editEvent = (index) => {
@@ -67,7 +77,7 @@ const Event = () => {
     saveEvents(updatedEvents);
   };
 
-  const filteredEvents = events.filter(event => {
+  const filteredEvents = events.filter((event) => {
     const now = new Date();
     if (filter === "coming") return event.start > now;
     if (filter === "past") return event.end < now;
@@ -80,65 +90,77 @@ const Event = () => {
     <div className={styles.Container}>
       <div className={styles.content}>
         <div className={styles.header}>
-      <h1 className={styles.title}>My Events</h1>
-      <h2 className={styles.subtitle}></h2> 
-      </div>
+          <h1 className={styles.title}>My Events</h1>
+          <h2 className={styles.subtitle}></h2>
+        </div>
 
-      <div className={styles.nav}>
-        <button onClick={() => setFilter('coming')}>Coming Events</button>
-        <button onClick={() => setFilter('past')}>Old Events</button>
-        <button onClick={() => setFilter('all')}>All Events</button>
-      </div>
+        <div className={styles.nav}>
+          <button onClick={() => setFilter("coming")}>Coming Events</button>
+          <button onClick={() => setFilter("past")}>Old Events</button>
+          <button onClick={() => setFilter("all")}>All Events</button>
+        </div>
 
-      <>
-      <form onSubmit={(e) => {
-        e.preventDefault();
-        addEvent();
-      }}>
-        
-        <input
-          type="text"
-          placeholder="Event Name"
-          value={eventName}
-          onChange={(e) => setEventName(e.target.value)}
-          required
-        />
-        <input
-          type="datetime-local"
-          value={startTime}
-          onChange={(e) => setStartTime(e.target.value)}
-          required
-        />
-        <input
-          type="datetime-local"
-          value={endTime}
-          onChange={(e) => setEndTime(e.target.value)}
-          required
-        />
-        <button type="submit">
-          {editIndex !== null ? 'Save Changes' : 'Add Event'}
-        </button>
-      </form>
-      </>
-     
-      <div className={styles.eventList}>
-      <ul className={styles.rutinListMainContainer}>
-        {filteredEvents.map((event, index) => {
-          const eventClass = event.start > new Date() ? styles.coming : styles.past;
-          return (
-            <li key={index} className={styles.rutinListContainer}>
-              <h3>{event.name}</h3>
-              <p>Start: {event.start.toLocaleString()}</p>
-              <p>End: {event.end.toLocaleString()}</p>
-              <button className={styles.createButton} onClick={() => editEvent(index)}>Edit</button>
-              <button className={styles.createButton} onClick={() => deleteEvent(index)}>Remove</button>
-            </li>
-          );
-        })}
-      </ul>
+        <>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              addEvent();
+            }}
+          >
+            <input
+              type="text"
+              placeholder="Event Name"
+              value={eventName}
+              onChange={(e) => setEventName(e.target.value)}
+              required
+            />
+            <input
+              type="datetime-local"
+              value={startTime}
+              onChange={(e) => setStartTime(e.target.value)}
+              required
+            />
+            <input
+              type="datetime-local"
+              value={endTime}
+              onChange={(e) => setEndTime(e.target.value)}
+              required
+            />
+            <button type="submit">
+              {editIndex !== null ? "Save Changes" : "Add Event"}
+            </button>
+          </form>
+        </>
+
+        <div className={styles.eventList}>
+          <ul className={styles.rutinListMainContainer}>
+            {filteredEvents.map((event, index) => {
+              const eventClass =
+                event.start > new Date() ? styles.coming : styles.past;
+              return (
+                <li key={index} className={styles.rutinListContainer}>
+                  <h3>{event.name}</h3>
+                  <p>Start: {event.start.toLocaleString()}</p>
+                  <p>End: {event.end.toLocaleString()}</p>
+                  <button
+                    className={styles.createButton}
+                    onClick={() => editEvent(index)}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    className={styles.createButton}
+                    onClick={() => deleteEvent(index)}
+                  >
+                    Remove
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
       </div>
     </div>
-   </div>
   );
 };
 
