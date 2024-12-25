@@ -112,7 +112,7 @@
   padding-left: 10px;
   margin-top: 50px;
   width: 282px;
-  min-height: 300px; /* Fixar höjden så att containern inte flyttas */
+  min-height: 300px;
 }
 
 .taskListTitle {
@@ -130,8 +130,8 @@
   border-radius: 15px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.032);
   padding: 10px;
-  min-height: 150px; /* För att hålla samma höjd även om det är tomt */
-  border: 1px solid transparent; /* Hjälper med layout */
+  min-height: 150px;
+  border: 1px solid transparent;
 }
 
 .taskSorter {

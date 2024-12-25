@@ -13,6 +13,7 @@ function Overview() {
 
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
+
   useEffect(() => {
     if (!user) {
       navigate("/signin");
@@ -56,6 +57,10 @@ function Overview() {
   //   { title: "Workshop", date: "2024-12-31" },
   //   { title: "Planeringsmöte", date: "2024-12-30" },
   // ];
+
+  const upcomingEvents = events
+    .filter((event) => event.start && new Date(event.start) > new Date())
+    .sort((a, b) => new Date(a.start) - new Date(b.start));
 
   return (
     <div className={styles.container}>
@@ -106,16 +111,20 @@ function Overview() {
               <h2>Habits - Högst Antal Repetitioner</h2>
             </div>
             <div className={styles.cards}>
-              {habits.map((habit, index) => (
-                <div key={index} className={styles.card}>
-                  <div className={styles.cardHeader}>
-                    <p>{habit.title}</p>
+              {habits.length > 0 ? (
+                habits.map((habit, index) => (
+                  <div key={index} className={styles.card}>
+                    <div className={styles.cardHeader}>
+                      <p>{habit.title}</p>
+                    </div>
+                    <div className={styles.cardFooter}>
+                      <p>{habit.Repetitioner} Repetitioner</p>
+                    </div>
                   </div>
-                  <div className={styles.cardFooter}>
-                    <p>{habit.Repetitioner} Repetitioner</p>
-                  </div>
-                </div>
-              ))}
+                ))
+              ) : (
+                <p>Lägg till rutiner!</p>
+              )}
             </div>
           </div>
           <div className={styles.containerLink}>
@@ -130,17 +139,21 @@ function Overview() {
               <h2>Events - Nästkommande Händelser</h2>
             </div>
             <div className={styles.cards}>
-              {events.map((event, index) => (
-                <div key={index} className={styles.card}>
-                  <div className={styles.cardHeader}>
-                    <p>{event.name}</p>
+              {upcomingEvents.length > 0 ? (
+                upcomingEvents.map((event, index) => (
+                  <div key={index} className={styles.card}>
+                    <div className={styles.cardHeader}>
+                      <p>{event.name}</p>
+                    </div>
+                    <div className={styles.cardFooter}>
+                      <p>Start: {event.start.toLocaleString()}</p>
+                      <p>End: {event.end.toLocaleString()}</p>
+                    </div>
                   </div>
-                  <div className={styles.cardFooter}>
-                    <p>Start: {event.start.toLocaleString()}</p>
-                    <p>End: {event.end.toLocaleString()}</p>
-                  </div>
-                </div>
-              ))}
+                ))
+              ) : (
+                <p>Inga nästkommande händelser</p>
+              )}
             </div>
           </div>
           <div className={styles.containerLink}>
@@ -153,5 +166,4 @@ function Overview() {
     </div>
   );
 }
-
 export default Overview;

@@ -11,7 +11,13 @@ const Event = () => {
   const [filter, setFilter] = useState("all");
   const [editIndex, setEditIndex] = useState(null);
 
-  const { user } = useContext(UserContext);
+  const { user, setEvents: setEventsContext } = useContext(UserContext);
+
+  useEffect(() => {
+    setEventsContext(events);
+  }, [events, setEventsContext]);
+
+  console.log("event in events:", events);
   const navigate = useNavigate();
   useEffect(() => {
     if (!user) {
