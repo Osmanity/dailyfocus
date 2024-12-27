@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import styles from "./Signin.module.css";
 import { Link, useNavigate } from "react-router";
 import axios from "axios";
@@ -8,9 +8,11 @@ import { UserContext } from "../../../../context/userContext";
 export const Signin = () => {
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
-  if (user) {
-    navigate("/overview");
-  }
+  useEffect(() => {
+    if (user) {
+      navigate("/overview");
+    }
+  }, [user, navigate]);
   const [UserSignInData, setUserSignInData] = useState({
     email: "",
     password: "",
