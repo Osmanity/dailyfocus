@@ -2,7 +2,8 @@
   "name": "dailyfocus",
   "description": "A daily focus app",
   "homepage": "https://osmanity.github.io/dailyfocus/",
-  "private": true,
+  "predeploy": "npm run dev",
+  "deploy": "gh-pages -d dist",
   "version": "0.0.0",
   "type": "module",
   "scripts": {
@@ -13,6 +14,7 @@
   },
   "dependencies": {
     "axios": "^1.7.9",
+    "gh-pages": "^6.2.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-hot-toast": "^2.4.1",
