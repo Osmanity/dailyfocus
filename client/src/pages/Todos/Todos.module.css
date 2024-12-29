@@ -132,11 +132,19 @@
   padding: 10px;
   min-height: 150px;
   border: 1px solid transparent;
+  max-height: 750px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #757779 #dbdbdb;
 }
 
 .taskSorter {
-  margin-bottom: 10px;
-  /* background-color: bisque; */
+  position: sticky;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #ccc;
+  top: 0;
+  background-color: #dbdbdb;
+  z-index: 10;
 }
 
 .logoSorting svg {
@@ -202,4 +210,8 @@
 .task p {
   margin: 0;
   padding: 0;
+}
+
+.logoSorting:hover {
+  cursor: pointer;
 }

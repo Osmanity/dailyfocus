@@ -9,14 +9,14 @@ const Todos = () => {
 
   const { tasks, setTasks } = useContext(UserContext);
 
-  // console.log(tasks);
-  //
   const [filteredCategory, setFilteredCategory] = useState("Alla");
   const [filteredStatus, setFilteredStatus] = useState("Alla");
   const [sortOrder, setSortOrder] = useState({});
+  const [sortCriteria, setSortCriteria] = useState({}); // Separat sorteringskriterium per kategori
 
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
+
   useEffect(() => {
     if (!user) {
       navigate("/signin");
@@ -53,29 +53,46 @@ const Todos = () => {
       };
 
       setTasks((prevTasks) => {
-        const categoryTasks = prevTasks[category] || [];
-        return {
-          ...prevTasks,
-          [category]: [...categoryTasks].sort((a, b) => {
-            let aValue = a[criteria] ?? "";
-            let bValue = b[criteria] ?? "";
+        const categoryTasks = [...(prevTasks[category] || [])];
 
-            if (criteria === "tidsestimat") {
-              aValue = parseFloat(aValue);
-              bValue = parseFloat(bValue);
-            }
+        const sortedTasks = categoryTasks.sort((a, b) => {
+          let aValue = a[criteria] || "";
+          let bValue = b[criteria] || "";
 
-            if (newSortOrder[category] === "asc") {
-              return aValue > bValue ? 1 : -1;
-            } else {
-              return aValue < bValue ? 1 : -1;
-            }
-          }),
-        };
+          if (criteria === "tidsestimat") {
+            aValue = parseFloat(aValue) || 0;
+            bValue = parseFloat(bValue) || 0;
+          } else if (criteria === "deadline") {
+            aValue = new Date(aValue).getTime() || 0;
+            bValue = new Date(bValue).getTime() || 0;
+          } else {
+            aValue = aValue.toString().toLowerCase();
+            bValue = bValue.toString().toLowerCase();
+          }
+
+          if (newSortOrder[category] === "asc") {
+            return aValue > bValue ? 1 : aValue < bValue ? -1 : 0;
+          } else {
+            return aValue < bValue ? 1 : aValue > bValue ? -1 : 0;
+          }
+        });
+
+        return { ...prevTasks, [category]: sortedTasks };
       });
 
       return newSortOrder;
     });
+  };
+
+  const handleDropdownChange = (category, e) => {
+    const criteria = e.target.value;
+
+    setSortCriteria((prevCriteria) => ({
+      ...prevCriteria,
+      [category]: criteria,
+    }));
+
+    handleSortChange(category, criteria);
   };
 
   const filteredTasks = Object.keys(tasks).reduce((result, category) => {
@@ -85,7 +102,7 @@ const Todos = () => {
 
     const categoryTasks = tasks[category] || [];
 
-    const filteredCategoryTasks = tasks[category].filter((task) => {
+    const filteredCategoryTasks = categoryTasks.filter((task) => {
       if (filteredStatus === "Alla") return true;
       return task.status === filteredStatus;
     });
@@ -142,75 +159,79 @@ const Todos = () => {
           {Object.keys(filteredTasks).map((category) => (
             <div key={category} className={styles.taskListContainer}>
               <h1 className={styles.taskListTitle}>{category}</h1>
-
-              <div className={styles.taskList}>
-                <div className={styles.taskSorter}>
-                  <div className={styles.field}>
-                    <div
-                      className={styles.logoSorting}
-                      onClick={() => handleSortChange(category, "title")}
-                    >
-                      {sortOrder[category] === "asc" ? (
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="32"
-                          height="32"
-                          fill="#000000"
-                          viewBox="0 0 256 256"
-                        >
-                          <path d="M40,128a8,8,0,0,1,8-8h72a8,8,0,0,1,0,16H48A8,8,0,0,1,40,128Zm8-56h56a8,8,0,0,0,0-16H48a8,8,0,0,0,0,16ZM184,184H48a8,8,0,0,0,0,16H184a8,8,0,0,0,0-16ZM229.66,82.34l-40-40a8,8,0,0,0-11.32,0l-40,40a8,8,0,0,0,11.32,11.32L176,67.31V144a8,8,0,0,0,16,0V67.31l26.34,26.35a8,8,0,0,0,11.32-11.32Z"></path>
-                        </svg>
-                      ) : (
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="32"
-                          height="32"
-                          fill="#000000"
-                          viewBox="0 0 256 256"
-                        >
-                          <path d="M128,128a8,8,0,0,1-8,8H48a8,8,0,0,1,0-16h72A8,8,0,0,1,128,128ZM48,72H184a8,8,0,0,0,0-16H48a8,8,0,0,0,0,16Zm56,112H48a8,8,0,0,0,0,16h56a8,8,0,0,0,0-16Zm125.66-21.66a8,8,0,0,0-11.32,0L192,188.69V112a8,8,0,0,0-16,0v76.69l-26.34-26.35a8,8,0,0,0-11.32,11.32l40,40a8,8,0,0,0,11.32,0l40-40A8,8,0,0,0,229.66,162.34Z"></path>
-                        </svg>
-                      )}
-                    </div>
-                    <select
-                      id="taskSorter"
-                      defaultValue="Alla" // Sätt "Alla" som standard
-                      onChange={(e) =>
-                        handleSortChange(category, e.target.value)
-                      }
-                    >
-                      <option value="Alla">Alla</option>
-                      <option value="status">Status</option>
-                      <option value="tidsestimat">Tidsestimat</option>
-                      <option value="deadline">Deadline</option>
-                    </select>
-                  </div>
-                </div>
-                {filteredTasks[category].length > 0 ? (
-                  filteredTasks[category].map((task, index) => (
-                    <Link key={index} to={`/todos/${category}/${index}`}>
-                      <div className={styles.task}>
-                        <div className={styles.taskHeader}>
-                          <p>{task.title}</p>
-                          <p>{task.status}</p>
-                        </div>
-                        <div className={styles.beskrivning}>
-                          <p>{task.beskrivning}</p>
-                        </div>
-                        <div className={styles.taskFooter}>
-                          <div className={styles.tidsestimat}>
-                            <p>{task.tidsestimat}</p>
-                          </div>
-                          <div className={styles.deadline}>
-                            <p>{task.deadline}</p>
-                          </div>
-                        </div>
+              <div className={styles.scrollContainer}>
+                <div className={styles.taskList}>
+                  <div className={styles.taskSorter}>
+                    <div className={styles.field}>
+                      <div
+                        className={styles.logoSorting}
+                        onClick={() =>
+                          handleSortChange(
+                            category,
+                            sortCriteria[category] || "Alla"
+                          )
+                        }
+                      >
+                        {sortOrder[category] === "asc" ? (
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="32"
+                            height="32"
+                            fill="#000000"
+                            viewBox="0 0 256 256"
+                          >
+                            <path d="M128,128a8,8,0,0,1-8,8H48a8,8,0,0,1,0-16h72A8,8,0,0,1,128,128ZM48,72H184a8,8,0,0,0,0-16H48a8,8,0,0,0,0,16Zm56,112H48a8,8,0,0,0,0,16h56a8,8,0,0,0,0-16Zm125.66-21.66a8,8,0,0,0-11.32,0L192,188.69V112a8,8,0,0,0-16,0v76.69l-26.34-26.35a8,8,0,0,0-11.32,11.32l40,40a8,8,0,0,0,11.32,0l40-40A8,8,0,0,0,229.66,162.34Z"></path>
+                          </svg>
+                        ) : (
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="32"
+                            height="32"
+                            fill="#000000"
+                            viewBox="0 0 256 256"
+                          >
+                            <path d="M40,128a8,8,0,0,1,8-8h72a8,8,0,0,1,0,16H48A8,8,0,0,1,40,128Zm8-56h56a8,8,0,0,0,0-16H48a8,8,0,0,0,0,16ZM184,184H48a8,8,0,0,0,0,16H184a8,8,0,0,0,0-16ZM229.66,82.34l-40-40a8,8,0,0,0-11.32,0l-40,40a8,8,0,0,0,11.32,11.32L176,67.31V144a8,8,0,0,0,16,0V67.31l26.34,26.35a8,8,0,0,0,11.32-11.32Z"></path>
+                          </svg>
+                        )}
                       </div>
-                    </Link>
-                  ))
-                ) : (
-                  <p className={styles.noTasks}>Inga ärenden tillagda</p>
-                )}
+                      <select
+                        id="taskSorter"
+                        value={sortCriteria[category] || "Alla"} // Visa det aktuella värdet för kategorin
+                        onChange={(e) => handleDropdownChange(category, e)}
+                      >
+                        <option value="Alla">Alla</option>
+                        <option value="status">Status</option>
+                        <option value="tidsestimat">Tidsestimat</option>
+                        <option value="deadline">Deadline</option>
+                      </select>
+                    </div>
+                  </div>
+                  {filteredTasks[category].length > 0 ? (
+                    filteredTasks[category].map((task, index) => (
+                      <Link key={index} to={`/todos/${category}/${index}`}>
+                        <div className={styles.task}>
+                          <div className={styles.taskHeader}>
+                            <p>{task.title}</p>
+                            <p>{task.status}</p>
+                          </div>
+                          <div className={styles.beskrivning}>
+                            <p>{task.beskrivning}</p>
+                          </div>
+                          <div className={styles.taskFooter}>
+                            <div className={styles.tidsestimat}>
+                              <p>{task.tidsestimat}</p>
+                            </div>
+                            <div className={styles.deadline}>
+                              <p>{task.deadline}</p>
+                            </div>
+                          </div>
+                        </div>
+                      </Link>
+                    ))
+                  ) : (
+                    <p className={styles.noTasks}>Inga ärenden tillagda</p>
+                  )}
+                </div>
               </div>
             </div>
           ))}
