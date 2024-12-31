@@ -42,15 +42,15 @@ export function UserContextProvider({ children }) {
         title: "Städa köket",
         status: "Ej Utförd",
         beskrivning: "Disk och rengör alla ytor.",
-        tidsestimat: "0.75",
-        deadline: "2024-12-22",
+        tidsestimat: "5",
+        deadline: "2024-12-20",
       },
       {
         title: "Handla mat",
         status: "Utförd",
         beskrivning: "Köp ingredienser för veckan.",
         tidsestimat: "1",
-        deadline: "2024-12-20",
+        deadline: "2024-12-10",
       },
       {
         title: "Tvätta kläder",
@@ -65,6 +65,13 @@ export function UserContextProvider({ children }) {
         beskrivning: "Sortera kläder och donera det som inte används.",
         tidsestimat: "3",
         deadline: "2024-12-18",
+      },
+      {
+        title: "Förberedd Väska",
+        status: "Utförd",
+        beskrivning: "Packa väskan inför semester.",
+        tidsestimat: "2",
+        deadline: "2024-12-28",
       },
     ],
     Jobb: [
@@ -99,16 +106,16 @@ export function UserContextProvider({ children }) {
   ]);
 
   const [events, setEvents] = useState([
-    {
-      name: "dailystand up",
-      start: "2024-12-22T10:59:00.000Z",
-      end: "2024-12-31T10:59:00.000Z",
-    },
-    {
-      name: "dailystand up2",
-      start: "2024-12-24T10:59:00.000Z",
-      end: "2024-12-29T10:59:00.000Z",
-    },
+    // {
+    //   name: "dailystand up",
+    //   start: "2024-12-22T10:59:00.000Z",
+    //   end: "2024-12-31T10:59:00.000Z",
+    // },
+    // {
+    //   name: "dailystand up2",
+    //   start: "2024-12-24T10:59:00.000Z",
+    //   end: "2024-12-29T10:59:00.000Z",
+    // },
   ]);
 
   useEffect(() => {
