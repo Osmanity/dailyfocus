@@ -14,7 +14,7 @@ import axios from "axios";
 import { Toaster } from "react-hot-toast";
 import { UserContextProvider } from "../context/userContext";
 import TaskDetails from "./components/Todos/Taskdetail/Taskdetail.jsx";
-import Test from "./pages/test.jsx";
+import Test from "./pages/Test.jsx";
 
 axios.defaults.baseURL = "http://localhost:8000";
 axios.defaults.withCredentials = true;
