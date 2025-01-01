@@ -30,7 +30,7 @@ createRoot(document.getElementById("root")).render(
               <Route path="/" element={<App />} />
               <Route path="/signup" element={<Signup />} />
               <Route path="/signin" element={<Signin />} />
-              <Route path="/overview" element={<Overview />} />
+              <Route path="/dailyfocus/overview" element={<Overview />} />
               <Route path="/todos" element={<Todos />} />
               <Route
                 path="/todos/:category/:taskIndex"
