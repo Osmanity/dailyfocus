@@ -20,7 +20,7 @@ axios.defaults.withCredentials = true;
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <BrowserRouter basename={import.meta.env.BASE_URL}>
+    <BrowserRouter>
       <UserContextProvider>
         <Toaster position="bottom-right" toastOptions={{ duration: 5000 }} />
         <div className="layout">
@@ -30,7 +30,7 @@ createRoot(document.getElementById("root")).render(
               <Route path="/" element={<App />} />
               <Route path="/signup" element={<Signup />} />
               <Route path="/signin" element={<Signin />} />
-              <Route path="/dailyfocus/overview" element={<Overview />} />
+              <Route path="/overview" element={<Overview />} />
               <Route path="/todos" element={<Todos />} />
               <Route
                 path="/todos/:category/:taskIndex"
