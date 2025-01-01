@@ -20,7 +20,7 @@ axios.defaults.withCredentials = true;
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <BrowserRouter basename="/dailyfocus">
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
       <UserContextProvider>
         <Toaster position="bottom-right" toastOptions={{ duration: 5000 }} />
         <div className="layout">
