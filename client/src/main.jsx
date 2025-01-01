@@ -3,7 +3,7 @@ import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App.jsx";
 import { BrowserRouter, Route, Routes } from "react-router";
-import Sidebar from "./components/Sidebar.jsx";
+// import Sidebar from "./components/Sidebar.jsx";
 // import Overview from "./pages/Overview/Overview.jsx";
 import Todos from "./pages/Todos/Todos.jsx";
 import Habits from "./pages/Habits/Habits.jsx";
@@ -26,7 +26,7 @@ createRoot(document.getElementById("root")).render(
       <UserContextProvider>
         <Toaster position="bottom-right" toastOptions={{ duration: 5000 }} />
         <div className="layout">
-          <Sidebar />
+          {/* <Sidebar /> */}
           <div className="main-content">
             <Routes>
               <Route path="/" element={<App />} />
