@@ -3,8 +3,8 @@ import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App.jsx";
 import { BrowserRouter, Route, Routes } from "react-router";
-// import Sidebar from "./components/Sidebar.jsx";
-// import Overview from "./pages/Overview/Overview.jsx";
+import Sidebar from "./components/Sidebar.jsx";
+import Overview from "./pages/Overview/Overview.jsx";
 import Todos from "./pages/Todos/Todos.jsx";
 import Habits from "./pages/Habits/Habits.jsx";
 import Events from "./pages/Events/Events.jsx";
@@ -15,25 +15,22 @@ import { Toaster } from "react-hot-toast";
 import { UserContextProvider } from "../context/userContext";
 import TaskDetails from "./components/Todos/Taskdetail/Taskdetail.jsx";
 
-import OverviewTest from "./pages/OverviewTest.jsx";
-
 axios.defaults.baseURL = "http://localhost:8000";
 axios.defaults.withCredentials = true;
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <BrowserRouter>
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
       <UserContextProvider>
         <Toaster position="bottom-right" toastOptions={{ duration: 5000 }} />
         <div className="layout">
-          {/* <Sidebar /> */}
+          <Sidebar />
           <div className="main-content">
             <Routes>
               <Route path="/" element={<App />} />
               <Route path="/signup" element={<Signup />} />
               <Route path="/signin" element={<Signin />} />
-              {/* <Route path="/overview" element={<Overview />} /> */}
-              <Route path="/overview" element={<OverviewTest />} />
+              <Route path="/overview" element={<Overview />} />
               <Route path="/todos" element={<Todos />} />
               <Route
                 path="/todos/:category/:taskIndex"
